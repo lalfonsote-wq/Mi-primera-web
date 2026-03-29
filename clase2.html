@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clase: Menú horizontal responsive</title>
+  <style>
+    :root {
+      --bg: #f7efe4;
+      --card: #fffaf4;
+      --primary: #c8925c;
+      --primary-dark: #a87044;
+      --text: #2b2b2b;
+      --muted: #6b6b6b;
+      --border: #e8d7c3;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --nav-height: 80px;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      padding-bottom: var(--nav-height);
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: calc(100vh - var(--nav-height));
+      overflow-y: auto;
+      padding: 24px 16px 32px;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-inner {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .kicker {
+      display: inline-block;
+      background: #f2dfca;
+      color: #7a4f2f;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+    }
+
+    h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 18px;
+    }
+
+    p {
+      line-height: 1.65;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .example-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin: 16px 0;
+    }
+
+    pre {
+      background: #2b2118;
+      color: #f8f1e9;
+      border-radius: 14px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin: 14px 0 18px;
+    }
+
+    code {
+      font-family: Consolas, Monaco, monospace;
+    }
+
+    ul {
+      padding-left: 22px;
+      margin-bottom: 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--nav-height);
+      background: rgba(255, 250, 244, 0.98);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      backdrop-filter: blur(10px);
+      z-index: 50;
+    }
+
+    .bottom-nav-inner {
+      width: min(100%, 980px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      border: none;
+      background: var(--primary);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      min-width: 100px;
+      transition: 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .slide-indicator {
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-align: center;
+      flex: 1;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 8px;
+      background: #f3e5d5;
+      color: #734826;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+
+    .demo-menu-wrap {
+      background: #f2e3d0;
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      margin: 16px 0;
+    }
+
+    .demo-menu {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    .demo-menu a {
+      display: block;
+      background: #c8895d;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+    }
+
+    @media (min-width: 760px) {
+      .slide {
+        padding: 34px 24px 36px;
+      }
+
+      .slide-inner {
+        padding: 30px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --nav-height: 86px;
+      }
+
+      .slide-inner {
+        padding: 18px;
+        border-radius: 16px;
+      }
+
+      pre {
+        font-size: 0.82rem;
+      }
+
+      .nav-btn {
+        min-width: 88px;
+        padding: 12px 14px;
+      }
+
+      .slide-indicator {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="slideshow">
+
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <div class="slide-inner">
+        <span class="kicker">Clase 1</span>
+        <h1>Cómo convertir un sitemap en un menú horizontal responsive</h1>
+        <p>
+          En esta clase vamos a construir la base de un sitio del
+          <strong>Instituto Tecnológico Unión Panamericana</strong> usando:
+          <strong>container</strong>, <strong>menú de primer nivel</strong>,
+          <strong>Flexbox</strong>, <strong>media query</strong> y una estructura reutilizable.
+        </p>
+        <div class="example-box">
+          <p><strong>Objetivo visual:</strong></p>
+          <ul>
+            <li>En PC el menú debe verse horizontal.</li>
+            <li>En móvil el menú debe verse vertical.</li>
+            <li>El contenido debe mantenerse centrado y limpio.</li>
+            <li>Cada opción principal debe enlazar a una subpágina.</li>
+          </ul>
+        </div>
+        <p class="muted">
+          Esta presentación incluye explicación y código listo para copiar.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 2</span>
+        <h2>Estructura del proyecto</h2>
+        <p>
+          Para este ejemplo usaremos una estructura sencilla de archivos HTML
+          separados y un solo CSS compartido.
+        </p>
+        <pre><code>proyecto/
+│
+├── index.html
+├── nosotros.html
+├── admisiones.html
+├── calendario.html
+├── contacto.html
+└── styles.css</code></pre>
+
+        <p>
+          La idea es que el <strong>header</strong>, el
+          <strong>container</strong> y el <strong>menú</strong> se repitan en todas
+          las páginas para mantener consistencia.
+        </p>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>Ventaja</h3>
+            <p>
+              El menú siempre se ve igual y el usuario puede navegar sin
+              perder orientación.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Lógica</h3>
+            <p>
+              Cada enlace del menú principal lleva a una página distinta,
+              como <code>nosotros.html</code> o <code>contacto.html</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 3</span>
+        <h2>HTML base con container y menú principal</h2>
+        <p>
+          Este es el HTML principal para crear el container y el menú de primer nivel.
+        </p>
+
+        <pre><code>&lt;header class="header"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1 class="logo"&gt;Instituto Tecnológico Unión Panamericana&lt;/h1&gt;
+
+    &lt;nav&gt;
+      &lt;ul class="menu"&gt;
+        &lt;li&gt;&lt;a href="index.html"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="nosotros.html"&gt;Nosotros&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="admisiones.html"&gt;Admisiones&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="calendario.html"&gt;Calendario&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="contacto.html"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+
+        <p>
+          Aquí <code>ul.menu</code> contiene el primer nivel del menú y cada
+          <code>li</code> representa una opción principal.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 4</span>
+        <h2>¿Para qué sirve el container?</h2>
+
+        <pre><code>.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}</code></pre>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>width: 90%</h3>
+            <p>
+              Hace que el contenido use casi todo el ancho disponible,
+              pero dejando respiración en los lados.
+            </p>
+          </div>
+          <div class="card">
+            <h3>max-width: 1200px</h3>
+            <p>
+              Evita que en pantallas grandes el contenido se haga demasiado ancho.
+            </p>
+          </div>
+          <div class="card">
+            <h3>margin: 0 auto</h3>
+            <p>
+              Centra horizontalmente el bloque dentro de la pantalla.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Responsive</h3>
+            <p>
+              El container se adapta bien tanto en móvil como en desktop.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 5</span>
+        <h2>Menú horizontal con Flexbox</h2>
+        <p>
+          En PC usamos <strong>Flexbox</strong> para colocar el menú en una sola fila.
+        </p>
+
+        <pre><code>.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.menu li a {
+  display: block;
+  text-decoration: none;
+  background-color: #c8895d;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+}</code></pre>
+
+        <div class="demo-menu-wrap">
+          <ul class="demo-menu">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Nosotros</a></li>
+            <li><a href="#">Admisiones</a></li>
+            <li><a href="#">Calendario</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </div>
+
+        <p>
+          <strong>display: flex</strong> pone los elementos uno al lado del otro.
+          <strong>justify-content: center</strong> los centra.
+          <strong>gap</strong> separa los botones.
+          <strong>flex-wrap: wrap</strong> evita que se rompan si no caben.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 6 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 6</span>
+        <h2>Media query para móvil</h2>
+        <p>
+          Cuando la pantalla es pequeña, el menú debe pasar de horizontal a vertical.
+        </p>
+
+        <pre><code>@media (max-width: 768px) {
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .menu li a {
+    width: 100%;
+    text-align: center;
+  }
+}</code></pre>
+
+        <div class="two-col">
+          <div class="card">
+            <h3>flex-direction: column</h3>
+            <p>
+              Coloca las opciones una debajo de otra.
+            </p>
+          </div>
+          <div class="card">
+            <h3>align-items: stretch</h3>
+            <p>
+              Hace que los elementos ocupen el ancho disponible.
+            </p>
+          </div>
+        </div>
+
+        <span class="tag">PC = horizontal / Móvil = vertical</span>
+      </div>
+    </section>
+
+    <!-- Slide 7 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 7</span>
+        <h2>CSS completo recomendado</h2>
+
+        <pre><code>* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5efe6;
+  color: #222;
+  line-height: 1.5;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  background-color: #d9b382;
+  padding: 20px 0;
+}
+
+.logo {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.menu li a {
+  display: block;
+  text-decoration: none;
+  background-color: #c8895d;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .menu li a {
+    width: 100%;
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Slide 8 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 8</span>
+        <h2>Duplicar la estructura para las demás páginas</h2>
+        <p>
+          Para reutilizar el mismo menú, copias el mismo bloque de
+          <code>header</code> en cada archivo HTML.
+        </p>
+
+        <pre><code>&lt;!-- nosotros.html --&gt;
+&lt;header class="header"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1 class="logo"&gt;Instituto Tecnológico Unión Panamericana&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;ul class="menu"&gt;
+        &lt;li&gt;&lt;a href="index.html"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="nosotros.html"&gt;Nosotros&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="admisiones.html"&gt;Admisiones&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="calendario.html"&gt;Calendario&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="contacto.html"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+
+        <p>
+          Eso permite que la navegación sea consistente en todo el sitio.
+        </p>
+      </div>
+    </section>
+
+    <!-- Slide 9 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 9</span>
+        <h2>Cómo enlazar a subpáginas internas</h2>
+        <p>
+          Cada sección principal puede tener una página interna con enlaces
+          a sus temas específicos.
+        </p>
+
+        <pre><code>&lt;main class="container"&gt;
+  &lt;h2&gt;Nosotros&lt;/h2&gt;
+  &lt;ul class="subpages"&gt;
+    &lt;li&gt;&lt;a href="historia.html"&gt;Historia&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="mision.html"&gt;Misión&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="valores.html"&gt;Valores&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="docentes.html"&gt;Docentes&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="coordinadores.html"&gt;Coordinadores&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/main&gt;</code></pre>
+
+        <pre><code>.subpages {
+  margin-top: 20px;
+  list-style: none;
+}
+
+.subpages li {
+  margin-bottom: 10px;
+}
+
+.subpages li a {
+  text-decoration: none;
+  color: #8b5e3c;
+  font-weight: bold;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Slide 10 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 10</span>
+        <h2>HTML completo de ejemplo</h2>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;Instituto Tecnológico Unión Panamericana&lt;/title&gt;
+  &lt;link rel="stylesheet" href="styles.css" /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header class="header"&gt;
+    &lt;div class="container"&gt;
+      &lt;h1 class="logo"&gt;Instituto Tecnológico Unión Panamericana&lt;/h1&gt;
+      &lt;nav&gt;
+        &lt;ul class="menu"&gt;
+          &lt;li&gt;&lt;a href="index.html"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="nosotros.html"&gt;Nosotros&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="admisiones.html"&gt;Admisiones&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="calendario.html"&gt;Calendario&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="contacto.html"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main class="container"&gt;
+    &lt;h2&gt;Inicio&lt;/h2&gt;
+    &lt;p&gt;Bienvenido al sitio oficial del instituto.&lt;/p&gt;
+  &lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- Slide 11 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="kicker">Clase 11</span>
+        <h2>Por qué este diseño es mobile friendly</h2>
+        <ul>
+          <li>Usa <code>meta viewport</code> para adaptarse a la pantalla del celular.</li>
+          <li>El container limita el ancho y evita desbordes.</li>
+          <li>Flexbox permite reorganizar el menú fácilmente.</li>
+          <li>La media query cambia el menú a vertical en pantallas pequeñas.</li>
+          <li>Los enlaces tienen suficiente padding para tocarse con el dedo.</li>
+          <li>La navegación de esta presentación está fija abajo para fácil acceso.</li>
+        </ul>
+
+        <div class="card">
+          <h3>Buena práctica</h3>
+          <p>
+            Aunque esta presentación usa JavaScript para pasar slides,
+            el menú del sitio del instituto puede funcionar solo con HTML y CSS
+            tal como lo viste en los ejemplos.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12 -->
