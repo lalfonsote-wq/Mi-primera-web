@@ -1,4 +1,10 @@
-img {
+.fotos{
     max-width: 200px;
-    height: auto;
-}
+    max-height: 100px;
+   }
+.test{
+    position: fixed;
+    }
+#test2{
+    display: none;    
+    }
