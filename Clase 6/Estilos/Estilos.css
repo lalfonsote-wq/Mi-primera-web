@@ -1,0 +1,96 @@
+/* Estilos Base y Paleta Oscura */ 
+:root { 
+    --bg-color: #0c0f16; 
+    --primary-text: #ffffff; 
+    --secondary-text: #adb5bd; 
+    --card-bg: #1a1e28; 
+    --accent: #f94144; /* Rojo para acentos */ 
+} 
+ 
+body { 
+    background-color: var(--bg-color); 
+    color: var(--primary-text); 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+} 
+ 
+/* Menú Navegación Inferior (Fijo) */ 
+.main-nav { 
+    background-color: var(--card-bg); 
+    position: fixed; /* ¡Importante! */ 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    display: flex; 
+     justify-content: space-around; 
+    padding: 15px 0; 
+    border-top: 1px solid #333; 
+    z-index: 1000; 
+} 
+ 
+.nav-item { 
+    color: var(--secondary-text); 
+    font-size: 24px; 
+    text-decoration: none; 
+} 
+ 
+.nav-item.active { 
+    color: var(--accent); /* Resaltar icono activo */ 
+} 
+ /* Contenedor del estante que permite el scroll */ 
+.shelf-scroll { 
+    display: flex; 
+    gap: 15px; 
+    padding: 0 15px; 
+    margin-top: 15px; 
+    margin-bottom: 20px; 
+    overflow-x: auto; /* ¡Importante! Activa el scroll horizontal */ 
+    scroll-behavior: smooth; 
+} 
+ 
+/* Asegurar que las tarjetas no se compriman y mantengan su ancho */ 
+.movie-card { 
+    flex: 0 0 auto; /* No encoger ni crecer, ancho automático */ 
+} 
+ 
+/* Ocultar barra de scroll (opcional para un diseño más limpio) */ 
+.shelf-scroll::-webkit-scrollbar { 
+    display: none; 
+} 
+ .category-item { 
+    background-color: var(--card-bg); 
+    display: flex; 
+    align-items: center; 
+    padding: 10px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+} 
+ 
+.category-label { 
+    flex: 1; /* Ocupa todo el espacio disponible */ 
+    margin-left: 15px; 
+    color: var(--secondary-text);
+} 
+    .video-container { 
+    width: 100%; 
+    background-color: #000; 
+} 
+ 
+.movie-player { 
+    width: 100%; 
+    height: auto; 
+    display: block; /* Elimina espacios vacíos */ 
+} 
+.img {
+    max-width: 200px;
+    max-height: 100px;
+    border: 3px solid #ccc;
+border-radius: 8px;
+transition: box-shadow 0.3s ease;
+
+box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+padding: 12px 15px;
+} 
