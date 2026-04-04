@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio: App de Películas</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --primary: #4361ee;
+            --primary-hover: #3f37c9;
+            --card-bg: #ffffff;
+            --code-bg: #282c34;
+            --code-color: #abb2bf;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        h1 { font-size: 1.2rem; margin: 0; color: var(--primary); }
+        h2 { font-size: 1.5rem; margin-top: 0; }
+
+        .step-container {
+            display: none;
+            padding: 20px;
+            padding-bottom: 100px; /* Espacio para la barra de navegación */
+            animation: fadeIn 0.3s ease-in-out;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .step-container.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .instruccion {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        code { font-family: "Fira Code", Consolas, monospace; }
+
+        /* Barra de Navegación Inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:active { background-color: var(--primary-hover); }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .progress-text { font-weight: bold; color: #6c757d; font-size: 0.9rem; }
+        
+        .emoji { font-size: 2rem; display: block; margin-bottom: 10px;}
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Laboratorio: App de Películas</h1>
+    </div>
+
+    <div class="step-container active" id="step-1">
+        <h2><span class="emoji">🚀</span> Tu Misión</h2>
+        <div class="instruccion">
+            <p>Vas a construir la pantalla principal de una aplicación de películas (tipo Netflix) usando HTML y CSS. Iremos paso a paso.</p>
+        </div>
+        <h3>Preparación:</h3>
+        <ol>
+            <li>Crea una carpeta en tu computadora llamada <strong>mi-app-peliculas</strong>.</li>
+            <li>Dentro, crea un archivo llamado <strong>index.html</strong>.</li>
+            <li>Crea otro archivo llamado <strong>estilos.css</strong>.</li>
+        </ol>
+    </div>
+
+    <div class="step-container" id="step-2">
+        <h2><span class="emoji">🦴</span> Fase 1: El Esqueleto</h2>
+        <div class="instruccion">
+            <p>Abre tu archivo <strong>index.html</strong> y copia este código. Presta atención a la etiqueta <code>&lt;link&gt;</code>, esa es la magia que trae los iconos a tu proyecto.</p>
+        </div>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Mi App de Películas&lt;/title&gt;
+    &lt;!-- 1. Enlazamos los iconos --&gt;
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" /&gt;
+    &lt;!-- 2. Enlazamos nuestro CSS --&gt;
+    &lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;!-- Tu código irá aquí --&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="step-container" id="step-3">
+        <h2><span class="emoji">📱</span> Fase 2: El Menú Inferior</h2>
+        <div class="instruccion">
+            <p>Vamos a crear el menú que siempre se queda pegado abajo. Copia esto dentro de las etiquetas <code>&lt;body&gt;</code> en tu <strong>index.html</strong>.</p>
+        </div>
+<pre><code>&lt;!-- Menú de Navegación --&gt;
+&lt;nav class="menu-inferior"&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-solid fa-house"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-solid fa-compass"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-regular fa-heart"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;a href="#"&gt;&lt;i class="fa-regular fa-user"&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+    </div>
+
+    <div class="step-container" id="step-4">
+        <h2><span class="emoji">🎨</span> Fase 2: El CSS del Menú</h2>
+        <div class="instruccion">
+            <p>Abre <strong>estilos.css</strong> y pega esto. El truco aquí es <code>position: fixed</code> para anclar el menú al fondo.</p>
+        </div>
+<pre><code>body {
+    background-color: #0c0f16;
+    color: white;
+    margin: 0;
+}
+
+.menu-inferior {
+    background-color: #1a1e28;
+    position: fixed; /* Lo deja pegado */
+    bottom: 0;       /* Al borde inferior */
+    width: 100%;
+    display: flex;   
+    justify-content: space-around;
+    padding: 15px 0;
+}
+
+.menu-inferior a {
+    color: #adb5bd;
+    font-size: 24px;
+}</code></pre>
+    </div>
+
+    <div class="step-container" id="step-5">
+        <h2><span class="emoji">🎞️</span> Fase 3: El Carrusel (HTML)</h2>
+        <div class="instruccion">
+            <p>Vuelve a <strong>index.html</strong>. Agrega esto justo <strong>arriba</strong> del código de tu menú. Usaremos imágenes de prueba.</p>
+        </div>
+<pre><code>&lt;section class="carrusel-contenedor"&gt;
+    &lt;h2&gt;Próximas Películas&lt;/h2&gt;
+    
+    &lt;div class="fila-con-scroll"&gt;
+        &lt;img src="https://via.placeholder.com/250x150/ff4d4d/white?text=Peli+1" class="poster"&gt;
+        &lt;img src="https://via.placeholder.com/250x150/4da6ff/white?text=Peli+2" class="poster"&gt;
+        &lt;img src="https://via.placeholder.com/250x150/4dff4d/white?text=Peli+3" class="poster"&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </div>
+
+    <div class="step-container" id="step-6">
+        <h2><span class="emoji">👈👉</span> Fase 3: El Scroll (CSS)</h2>
+        <div class="instruccion">
+            <p>En <strong>estilos.css</strong>, el secreto es <code>overflow-x: auto</code>, que permite deslizar hacia los lados.</p>
+        </div>
+<pre><code>.carrusel-contenedor { padding: 20px; }
+.carrusel-contenedor h2 { font-size: 18px; }
+
+.fila-con-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto; /* ¡Activa el scroll! */
+    padding-bottom: 10px;
+}
+
+.poster {
+    border-radius: 10px;
+    flex-shrink: 0; /* Evita que se aplasten */
+}</code></pre>
+    </div>
+
+    <div class="step-container" id="step-7">
+        <h2><span class="emoji">▶️</span> Fase 4: Reproducir Video</h2>
+        <div class="instruccion">
+            <p>Añade este código en tu <strong>index.html</strong>, debajo del carrusel y arriba del menú. La etiqueta <code>controls</code> muestra el botón de play.</p>
+        </div>
+<pre><code>&lt;section style="padding: 20px;"&gt;
+    &lt;h2&gt;Tráiler de Estreno&lt;/h2&gt;
+    
+    &lt;video width="100%" controls&gt;
+        &lt;source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4"&gt;
+        Tu navegador no soporta videos.
+    &lt;/video&gt;
+&lt;/section&gt;</code></pre>
+    </div>
+
+    <div class="step-container" id="step-8">
+        <h2><span class="emoji">🏆</span> Tu Reto Final</h2>
+        <div class="instruccion">
+            <p>¡Has terminado la estructura básica! Ahora te toca personalizarla:</p>
+        </div>
+        <ol>
+            <li>Copia y pega el bloque del carrusel HTML para crear una segunda fila llamada "Películas Nuevas".</li>
+            <li>Busca en Google imágenes de pósters de películas reales.</li>
+            <li>Reemplaza los enlaces <code>https://via.placeholder...</code> por los enlaces de tus imágenes reales en el atributo <code>src=""</code>.</li>
+        </ol>
+        <p style="text-align: center; font-size: 1.5rem; margin-top: 30px;">¡Buena Suerte!</p>
+    </div>
+
+    <div class="bottom-nav">
+        <button id="btn-prev" onclick="changeStep(-1)" disabled>Atrás</button>
+        <span class="progress-text" id="progress-text">1 / 8</span>
+        <button id="btn-next" onclick="changeStep(1)">Siguiente</button>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 8;
+
+        function changeStep(direction) {
+            // Ocultar paso actual
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            
+            // Actualizar contador
+            currentStep += direction;
+            
+            // Mostrar nuevo paso
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            
+            // Actualizar botones y texto
+            document.getElementById('progress-text').innerText = `${currentStep} / ${totalSteps}`;
+            document.getElementById('btn-prev').disabled = currentStep === 1;
+            
+            const btnNext = document.getElementById('btn-next');
+            if (currentStep === totalSteps) {
+                btnNext.style.display = 'none';
+            } else {
+                btnNext.style.display = 'block';
+            }
+            
+            // Volver arriba al cambiar de paso
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
